@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-const cors = cors({
+const corsMiddleware = cors({
     origin: '*', 
     methods: ['POST', 'OPTIONS'], 
   });
