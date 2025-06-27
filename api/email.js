@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
     await transporter.sendMail({
       from: `${process.env.SMTP_MAIL}`,
-      to: `${process.env.SMTP_MAIL}`,
+      to: `${process.env.SMTP_TO}`,
       subject: 'New Contact Form Message',
       html: `
         <h3>New Message from FBD Website</h3>
