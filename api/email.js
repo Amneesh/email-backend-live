@@ -1,10 +1,30 @@
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
+import cors from 'cors';
 
 import dotenv from "dotenv";
 dotenv.config();
 
+
+const cors = cors({
+    origin: '*', 
+    methods: ['POST', 'OPTIONS'], 
+  });
+ 
+  
+  
+  
 export default async function handler(req, res) {
+  
+    corsMiddleware(req, res, async () => {
+   
+
+      
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -46,4 +66,5 @@ export default async function handler(req, res) {
     console.error('Error sending email:', error);
     res.status(500).json({ error: 'Failed to send message' });
   }
+});
 }
