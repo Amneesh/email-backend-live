@@ -1,4 +1,8 @@
 import nodemailer from 'nodemailer';
+import smtpTransport from 'nodemailer-smtp-transport';
+
+import dotenv from "dotenv";
+dotenv.config();
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,17 +16,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    const transporter = nodemailer.createTransport(smtpTransport({
+        host: `${process.env.SMTP_HOST}`,
+        port:  `${process.env.SMTP_PORT}`,
+        secure: false,
+        auth: {
+          user: `${process.env.SMTP_MAIL}`,
+          pass: `${process.env.SMTP_PASSWORD}`,
+        },
+        tls:{
+            rejectUnauthorized: false,
+        }
+      }));
 
     await transporter.sendMail({
-      from: `"FBD Website" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO,
+      from: `${process.env.SMTP_MAIL}`,
+      to: `${process.env.SMTP_MAIL}`,
       subject: 'New Contact Form Message',
       html: `
         <h3>New Message from FBD Website</h3>
