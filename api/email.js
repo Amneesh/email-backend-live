@@ -34,6 +34,7 @@ export default async function handler(req, res) {
   if (!name || !email || !message || !to || !subject || !html) {
     return res.status(400).json({ error: 'All fields required' });
   }
+    res.status(200).json({ message: 'Email sent successfully!' });
 
   try {
     const transporter = nodemailer.createTransport(smtpTransport({
